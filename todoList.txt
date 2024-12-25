@@ -1,0 +1,48 @@
+Project Setup
+    [X] Set up your Java Development Environment (IDE, JDK).
+    [X] Decide on the Java version (Java 11 or Java 22) based on your project needs.
+    [X] Create a new project in your IDE.
+    [X] Plan the database schema and create tables:
+    [X] Users table
+    [X] Expenses table
+    [X] Income table
+    [X] Budgets table
+    [X] Set up a local SQLite or MySQL database.
+    [X] Connect your Java project to the database using JDBC.
+Basic Classes and Operations
+    [X] Create core classes: User, Expense, Income, and Budget.
+    [X] Implement DAO (Data Access Objects) classes for database operations.
+    [X] Implement basic CRUD methods in DAO classes:
+    [X] Add user registration and login methods.
+    [X] Create functions to record expenses and income.
+    [ ] Implement update and delete methods for each record type.
+    [X] Add functions to set and update budgets.
+Basic Console-Based Application
+    [X] Create a simple menu-based console application:
+    [X] Implement user registration and login in the console.
+    [ ] Add options to record expenses and income.
+    [ ] Allow viewing and updating of expenses, income, and budgets.
+    [ ] Display options to list expenses/incomes for specific time periods or categories.
+Implement Data Validation
+    [ ] Add input validation for user entries.
+    [ ] Implement budget alerts (console-based messages) when users exceed their budget.
+Transition to GUI
+    [ ] Set up JavaFX or Swing for building the graphical user interface.
+    [ ] Create basic forms for:
+    [ ] User Registration and Login.
+    [ ] Recording expenses and income.
+    [ ] Setting and viewing budgets.
+    [ ] Add buttons for navigation and input fields for each form.
+    [ ] Implement functions to save form data to the database.
+Advanced Features and Reports
+    [ ] Implement a feature to show reports (summary of expenses, income) in the GUI.
+    [ ] Use a charting library like JFreeChart to visualize expenses by category or time period.
+    [ ] Add notifications and alerts to the GUI when a user exceeds their budget.
+Testing and Refinement
+    [ ] Test the application with sample data to check functionality and user experience.
+    [ ] Perform boundary tests for different scenarios.
+    [ ] Refactor the codebase to improve readability and performance.
+Deployment and Packaging
+    [ ] Package the project into a runnable JAR file.
+    [ ] Include the database in the packaged JAR file.
+    [ ] Test the JAR file on different systems to ensure compatibility.
