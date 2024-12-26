@@ -7,14 +7,16 @@ public class Income {
     private String source;
     private String date;
     private String description;
+    private int frequency;
 
-    public Income(int incomeID, int userID, double amount, String source, String date, String description) {
+    public Income(int incomeID, int userID, double amount, String source, String date, String description, int frequency) {
         this.incomeID = incomeID;
         this.userID = userID;
         this.amount = amount;
         this.source = source;
         this.date = date;
         this.description = description;
+        this.frequency = frequency;
     }
 
     // Getters and Setters
@@ -24,4 +26,5 @@ public class Income {
     public String getSource() { return source; }
     public String getDate() { return date; }
     public String getDescription() { return description; }
+    public int getFrequency() {return frequency;}
 }

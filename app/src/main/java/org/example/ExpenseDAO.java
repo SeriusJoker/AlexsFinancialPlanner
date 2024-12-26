@@ -12,52 +12,57 @@ public class ExpenseDAO {
     private static final String URL = "jdbc:sqlite:C:/Users/Administrator/Documents/AlexandersMint/personal_finance_database.db"; // Use the absolute path for now
 
     // Method to add a new expense
-    public void addExpense(int userID, double amount, String category, String description) {
-        String sql = "INSERT INTO Expenses (UserID, Amount, Category, Description) VALUES (?, ?, ?, ?)";
-
+    public void addExpense(int userID, double amount, String category, String description, int frequency) {
+        String sql = "INSERT INTO Expenses (UserID, Amount, Category, Description, Frequency) VALUES (?, ?, ?, ?, ?)";
+    
         try (Connection connection = DriverManager.getConnection(URL);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+    
             preparedStatement.setInt(1, userID);
             preparedStatement.setDouble(2, amount);
             preparedStatement.setString(3, category);
             preparedStatement.setString(4, description);
+            preparedStatement.setInt(5, frequency);
             preparedStatement.executeUpdate();
             System.out.println("Expense added successfully!");
-
+    
         } catch (SQLException e) {
             System.out.println("Error adding expense: " + e.getMessage());
         }
     }
+    
 
     // Method to retrieve all expenses for a specific user
     public List<Expense> getExpensesByUserID(int userID) {
         List<Expense> expenses = new ArrayList<>();
         String sql = "SELECT * FROM Expenses WHERE UserID = ?";
-
+    
         try (Connection connection = DriverManager.getConnection(URL);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+    
             preparedStatement.setInt(1, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+    
             while (resultSet.next()) {
-                int expenseID = resultSet.getInt("ExpenseID");
-                double amount = resultSet.getDouble("Amount");
-                String category = resultSet.getString("Category");
-                String date = resultSet.getString("Date");
-                String description = resultSet.getString("Description");
-
-                Expense expense = new Expense(expenseID, userID, amount, category, date, description);
+                Expense expense = new Expense(
+                    resultSet.getInt("ExpenseID"),
+                    resultSet.getInt("UserID"),
+                    resultSet.getDouble("Amount"),
+                    resultSet.getString("Category"),
+                    resultSet.getString("Date"),
+                    resultSet.getString("Description"),
+                    resultSet.getInt("Frequency") // Retrieve Frequency
+                );
                 expenses.add(expense);
             }
-
+    
         } catch (SQLException e) {
             System.out.println("Error retrieving expenses: " + e.getMessage());
         }
-
+    
         return expenses;
     }
+    
 
     // Method to update an expense
     public void updateExpense(int expenseID, double amount, String category, String description) {
@@ -93,7 +98,8 @@ public class ExpenseDAO {
                     resultSet.getDouble("Amount"),
                     resultSet.getString("Category"),
                     resultSet.getString("Date"),
-                    resultSet.getString("Description")
+                    resultSet.getString("Description"),
+                    resultSet.getInt("Frequency")
                 );
             }
     
@@ -101,7 +107,7 @@ public class ExpenseDAO {
             System.out.println("Error retrieving expense: " + e.getMessage());
         }
     
-        return null; // Return null if no expense is found
+        return null;
     }
     
 

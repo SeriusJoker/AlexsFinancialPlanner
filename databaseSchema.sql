@@ -1,3 +1,10 @@
+-- Drop existing tables
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Expenses;
+DROP TABLE IF EXISTS Income;
+DROP TABLE IF EXISTS Budgets;
+
+-- Recreate the Users table
 CREATE TABLE Users (
     UserID INTEGER PRIMARY KEY AUTOINCREMENT,
     Username VARCHAR(50) UNIQUE NOT NULL,
@@ -6,6 +13,7 @@ CREATE TABLE Users (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Recreate the Expenses table with Frequency column
 CREATE TABLE Expenses (
     ExpenseID INTEGER PRIMARY KEY AUTOINCREMENT,
     UserID INTEGER NOT NULL,
@@ -13,9 +21,11 @@ CREATE TABLE Expenses (
     Category VARCHAR(50) NOT NULL,
     Date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     Description TEXT,
+    Frequency INTEGER DEFAULT 0, -- New column for payment frequency (in days)
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
+-- Recreate the Income table with Frequency column
 CREATE TABLE Income (
     IncomeID INTEGER PRIMARY KEY AUTOINCREMENT,
     UserID INTEGER NOT NULL,
@@ -23,9 +33,11 @@ CREATE TABLE Income (
     Source VARCHAR(50) NOT NULL,
     Date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     Description TEXT,
+    Frequency INTEGER DEFAULT 0, -- New column for payment frequency (in days)
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
+-- Recreate the Budgets table
 CREATE TABLE Budgets (
     BudgetID INTEGER PRIMARY KEY AUTOINCREMENT,
     UserID INTEGER NOT NULL,
@@ -35,5 +47,3 @@ CREATE TABLE Budgets (
     EndDate DATETIME,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
-
-

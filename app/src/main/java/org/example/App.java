@@ -172,15 +172,21 @@ public class App {
             System.out.print("Enter a description (optional): ");
             String description = scanner.nextLine().trim();
     
+            System.out.print("Enter the payment frequency in days (0 for one-time payments): ");
+            int frequency = Integer.parseInt(scanner.nextLine().trim());
+    
             // Call the DAO method to add the expense
-            expenseDAO.addExpense(loggedInUser.getUserID(), amount, category, description);
+            expenseDAO.addExpense(loggedInUser.getUserID(), amount, category, description, frequency);
+    
+            System.out.println("Expense added successfully!");
     
         } catch (NumberFormatException e) {
-            System.out.println("Invalid amount. Please enter a numeric value.");
+            System.out.println("Invalid input. Please ensure you enter numeric values for amount and frequency.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
+    
   
     
     private void deleteExpenseMenu() {
@@ -244,26 +250,25 @@ public class App {
         }
     
         System.out.println("Showing expenses for " + loggedInUser.getUsername());
+        System.out.println("Your Expenses:");
+        System.out.println("ExpenseID  Category        Amount     Frequency  Description          Date");
+        System.out.println("--------------------------------------------------------------------------");
+    
         List<Expense> expenses = expenseDAO.getExpensesByUserID(loggedInUser.getUserID());
     
-        if (expenses.isEmpty()) {
-            System.out.println("No expenses found.");
-        } else {
-            System.out.println("Your Expenses:");
-            System.out.printf("%-10s %-15s %-10s %-20s %-20s%n", "ExpenseID", "Category", "Amount", "Description", "Date");
-            System.out.println("--------------------------------------------------------------------------");
-            for (Expense expense : expenses) {
-                System.out.printf(
-                    "%-10d %-15s %-10.2f %-20s %-20s%n",
-                    expense.getExpenseID(),
-                    expense.getCategory(),
-                    expense.getAmount(),
-                    expense.getDescription(),
-                    expense.getDate()
-                );
-            }
+        for (Expense expense : expenses) {
+            System.out.printf(
+                "%-10d %-15s %-10.2f %-10d %-20s %-20s%n",
+                expense.getExpenseID(),
+                expense.getCategory(),
+                expense.getAmount(),
+                expense.getFrequency(), 
+                expense.getDescription(),
+                expense.getDate()
+            );
         }
     }
+    
     
 
     // 1) Check expenses   
@@ -415,7 +420,7 @@ public class App {
 
 
 
-    public void testDatabase(){
+    /*public void testDatabase(){
 
 
         try (Connection connection = DriverManager.getConnection(URL)) {
@@ -453,7 +458,7 @@ public class App {
         }
 
 
-    }
+    } */
 
 
 

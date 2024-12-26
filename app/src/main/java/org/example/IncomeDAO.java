@@ -12,52 +12,57 @@ public class IncomeDAO {
     private static final String URL = "jdbc:sqlite:C:/Users/Administrator/Documents/AlexandersMint/personal_finance_database.db"; 
 
     // Method to add a new income record
-    public void addIncome(int userID, double amount, String source, String description) {
-        String sql = "INSERT INTO Income (UserID, Amount, Source, Description) VALUES (?, ?, ?, ?)";
-
+    public void addIncome(int userID, double amount, String source, String description, int frequency) {
+        String sql = "INSERT INTO Income (UserID, Amount, Source, Description, Frequency) VALUES (?, ?, ?, ?, ?)";
+    
         try (Connection connection = DriverManager.getConnection(URL);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+    
             preparedStatement.setInt(1, userID);
             preparedStatement.setDouble(2, amount);
             preparedStatement.setString(3, source);
             preparedStatement.setString(4, description);
+            preparedStatement.setInt(5, frequency);
             preparedStatement.executeUpdate();
             System.out.println("Income added successfully!");
-
+    
         } catch (SQLException e) {
             System.out.println("Error adding income: " + e.getMessage());
         }
     }
+    
 
     // Method to retrieve all income records for a specific user
     public List<Income> getIncomeByUserID(int userID) {
-        List<Income> incomeList = new ArrayList<>();
+        List<Income> incomes = new ArrayList<>();
         String sql = "SELECT * FROM Income WHERE UserID = ?";
-
+    
         try (Connection connection = DriverManager.getConnection(URL);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+    
             preparedStatement.setInt(1, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+    
             while (resultSet.next()) {
-                int incomeID = resultSet.getInt("IncomeID");
-                double amount = resultSet.getDouble("Amount");
-                String source = resultSet.getString("Source");
-                String date = resultSet.getString("Date");
-                String description = resultSet.getString("Description");
-
-                Income income = new Income(incomeID, userID, amount, source, date, description);
-                incomeList.add(income);
+                Income income = new Income(
+                    resultSet.getInt("IncomeID"),
+                    resultSet.getInt("UserID"),
+                    resultSet.getDouble("Amount"),
+                    resultSet.getString("Source"),
+                    resultSet.getString("Date"),
+                    resultSet.getString("Description"),
+                    resultSet.getInt("Frequency") // Retrieve Frequency
+                );
+                incomes.add(income);
             }
-
+    
         } catch (SQLException e) {
-            System.out.println("Error retrieving income records: " + e.getMessage());
+            System.out.println("Error retrieving incomes: " + e.getMessage());
         }
-
-        return incomeList;
+    
+        return incomes;
     }
+    
 
     // Method to update an income record
     public void updateIncome(int incomeID, double amount, String source, String description) {

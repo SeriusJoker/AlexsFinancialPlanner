@@ -7,14 +7,16 @@ public class Expense {
     private String category;
     private String date;
     private String description;
+    private int frequency;
 
-    public Expense(int expenseID, int userID, double amount, String category, String date, String description) {
+    public Expense(int expenseID, int userID, double amount, String category, String date, String description, int frequency) {
         this.expenseID = expenseID;
         this.userID = userID;
         this.amount = amount;
         this.category = category;
         this.date = date;
         this.description = description;
+        this.frequency = frequency;
     }
 
     // Getters and Setters
@@ -24,4 +26,5 @@ public class Expense {
     public String getCategory() { return category; }
     public String getDate() { return date; }
     public String getDescription() { return description; }
+    public int getFrequency() {return frequency;}
 }
